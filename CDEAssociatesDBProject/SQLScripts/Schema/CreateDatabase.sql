@@ -1,0 +1,5 @@
+﻿IF DB_ID('CDEAssociates') IS NULL
+BEGIN
+    CREATE DATABASE [CDEAssociates] 
+END
+GO
