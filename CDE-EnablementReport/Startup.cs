@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using System.IO;
+using System.Text;
 
 namespace CDE_EnablementReport
 {
@@ -25,14 +26,15 @@ namespace CDE_EnablementReport
             services.ConfigureIISIntegration();
             services.ConfigureLoggerService();
             services.ConfigureMSSqlContext(Configuration);
-            services.ConfigureRepositoryWrapper();
-
+            services.ConfigureRepositoryWrapper();            
             services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
             if (env.IsDevelopment())
             {
                 app.UseBrowserLink();

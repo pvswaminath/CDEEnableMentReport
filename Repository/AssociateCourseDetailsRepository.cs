@@ -16,5 +16,9 @@ namespace Repository
         {
             return GetAll();
         }
+
+        public void SaveAssociateCourseDetails(IList<AssociateCourseDetails> associateCourseDetails) {
+            Save(associateCourseDetails);
+        }
     }
 }

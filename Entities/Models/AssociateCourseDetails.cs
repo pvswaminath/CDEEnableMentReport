@@ -9,8 +9,7 @@ namespace Entities.Models
     [Table("AssociateCourseDetails")]
     public class AssociateCourseDetails
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]        
         public int ID { get; set; }
 
         [Required(ErrorMessage = "Associate Id is required")]
