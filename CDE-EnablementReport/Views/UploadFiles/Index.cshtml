@@ -1,0 +1,149 @@
+﻿@model PaginatedList<Entities.Models.AssociateCourseDetails>
+@{
+    ViewData["Title"] = "Upload";
+}
+
+<h2>Upload Files</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" enctype="multipart/form-data" asp-controller="UploadFiles" asp-action="Post">
+			<div class="form-group">
+				<div class="col-md-10">
+					<p>Upload one or more files using this form:</p>
+					<input type="file" name="files" multiple />
+				</div>
+				</div>
+				<br/>
+				<br/>
+				<br/>
+			<div class="form-group">
+				<div class="col-md-10">
+					<input type="submit" value="Upload" />
+				</div>
+				@ViewBag.UploadMsg
+			</div>
+
+			
+		</form>
+    </div>
+</div>
+
+<br/>
+<br/>
+
+<h2>Uploaded data</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+			<th>
+				Associate ID
+			</th>				
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">Associate Name</a>
+            </th>           
+            <th>
+				Course
+			</th>
+			<th>
+				Stack
+			</th>
+			<th>
+				Training_Vendor
+			</th>
+			<th>
+				Recommendation
+			</th>
+			<th>
+				Reporting_Status
+			</th>
+			<th>
+				Grade2
+			</th>
+			<th>
+				Level_Description
+			</th>
+			<th>
+				DepartmentDescription
+			</th>
+			<th>
+				DepartmentGroup
+			</th>
+			<th>
+				Classification
+			</th>
+			<th>
+				HorizontalName
+			</th>
+			<th>
+				VerticalName
+			</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AssociateID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AssociateName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Course)
+                </td>
+				<td>
+                    @Html.DisplayFor(modelItem => item.Stack)
+                </td>
+				<td>
+                    @Html.DisplayFor(modelItem => item.Training_Vendor)
+                </td>
+				<td>
+                    @Html.DisplayFor(modelItem => item.Recommendation)
+                </td>
+				<td>
+                    @Html.DisplayFor(modelItem => item.Reporting_Status)
+                </td>
+				<td>
+                    @Html.DisplayFor(modelItem => item.Level_Description)
+                </td>
+				<td>
+                    @Html.DisplayFor(modelItem => item.DepartmentDescription)
+                </td>
+				<td>
+                    @Html.DisplayFor(modelItem => item.DepartmentGroup)
+                </td>
+				<td>
+                    @Html.DisplayFor(modelItem => item.Classification)
+                </td>
+				<td>
+                    @Html.DisplayFor(modelItem => item.HorizontalName)
+                </td>
+				<td>
+                    @Html.DisplayFor(modelItem => item.VerticalName)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-page="@(Model.PageIndex - 1)"   
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-page="@(Model.PageIndex + 1)"   
+   class="btn btn-default @nextDisabled">
+    Next
+</a>

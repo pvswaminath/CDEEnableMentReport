@@ -22,12 +22,37 @@ namespace CDEEnablementReport.Controllers
             _repository = repository;
         }
 
-        public IActionResult Index()
+        [HttpGet]
+        public IActionResult Index(string sortOrder, int? page)
         {
-            return View();
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            //ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";            
+
+            List<AssociateCourseDetails> associateCourseDetails = _repository.associateCourseDetailsRepository.GetAll().ToList();
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    associateCourseDetails = associateCourseDetails.OrderByDescending(acd => acd.AssociateName).ToList();
+                    break;
+                //case "Date":
+                //    associateCourseDetails = associateCourseDetails.OrderBy(acd => acd.);
+                //    break;
+                //case "date_desc":
+                //    associateCourseDetails = associateCourseDetails.OrderByDescending(acd => acd.);
+                //    break;
+                default:
+                    associateCourseDetails = associateCourseDetails.OrderBy(acd => acd.AssociateName).ToList();
+                    break;
+            }
+
+            int pageSize = 2;
+            //return View(await PaginatedList<AssociateCourseDetails>.CreateAsync(associateCourseDetails, page ?? 1, pageSize));
+            return View(PaginatedList<AssociateCourseDetails>.Create(associateCourseDetails, page ?? 1, pageSize));
         }
 
-        [HttpPost("UploadFiles")]
+        [HttpPost]
         public IActionResult Post(List<IFormFile> files) {
             if (ModelState.IsValid)
             {
@@ -97,7 +122,7 @@ namespace CDEEnablementReport.Controllers
                     ModelState.AddModelError("File", "Please Upload your file");
                 }
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index");
         }       
     }
 }
